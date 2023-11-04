@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ms.user.data.protocol.GetUserByAccessTokenRepository;
-import com.ms.user.domain.modal.User;
+import com.ms.user.domain.model.User;
 
 @Repository
 public interface UserPostgresRepository extends JpaRepository<User, String>, GetUserByAccessTokenRepository {
