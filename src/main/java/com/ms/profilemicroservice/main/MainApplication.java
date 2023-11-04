@@ -1,4 +1,4 @@
-package com.example.profilemicroservice.main;
+package com.ms.profilemicroservice.main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
