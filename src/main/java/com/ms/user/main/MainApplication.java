@@ -1,4 +1,4 @@
-package com.ms.profilemicroservice.main;
+package com.ms.user.main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

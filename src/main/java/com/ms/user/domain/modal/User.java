@@ -1,4 +1,4 @@
-package com.ms.profilemicroservice.domain.modal;
+package com.ms.user.domain.modal;
 
 public class User {
     private Long id;    
