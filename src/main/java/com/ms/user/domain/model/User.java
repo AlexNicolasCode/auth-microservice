@@ -1,4 +1,4 @@
-package com.ms.user.domain.modal;
+package com.ms.user.domain.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
