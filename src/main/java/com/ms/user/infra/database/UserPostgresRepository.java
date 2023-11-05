@@ -9,6 +9,6 @@ import com.ms.user.domain.model.User;
 
 @Repository
 public interface UserPostgresRepository extends JpaRepository<User, Long>, GetUserByAccessTokenRepository {
-    @Query(value = "select u from User u where u.token = ?1")
+    @Query(value = "SELECT u FROM tb_user u WHERE u.token = ?1", nativeQuery = true)
     User getByAccessToken(String accessToken);
 }
