@@ -8,8 +8,7 @@ import com.ms.user.data.protocol.GetUserByAccessTokenRepository;
 import com.ms.user.domain.model.User;
 
 @Repository
-public interface UserPostgresRepository extends JpaRepository<User, String>, GetUserByAccessTokenRepository {
-    @Override
-    @Query("SELECT * FROM USER u WHERE u.token = ?accessToken")
-    public User getByAccessToken(String accessToken);
+public interface UserPostgresRepository extends JpaRepository<User, Long>, GetUserByAccessTokenRepository {
+    @Query(value = "select u from User u where u.token = ?1")
+    User getByAccessToken(String accessToken);
 }
