@@ -1,28 +1,23 @@
 package com.ms.user.domain.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name="USER")
+@Table(name = "tb_user")
 public class User {
     @Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @NotNull
+
+    @Column(nullable = false)
 	private String name;
 	
-    @NotNull
+    @Column(nullable = false)
     private String email;
-
-    @NotNull
+    
+    @Column(nullable = false)
     private String password;
-
+    
     private String token;
 
     public Long getId() {
