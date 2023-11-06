@@ -12,7 +12,7 @@ public class DbSaveUser implements SaveUser {
     private SaveUserRepository saveUserRepository;
 
     @Override
-    public void save(User user) {
-        this.saveUserRepository.save(user);
+    public User save(User user) {
+        return this.saveUserRepository.save(user);
     }
 }
