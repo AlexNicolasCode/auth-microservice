@@ -2,8 +2,10 @@ package com.ms.user.main.factory.usecase;
 
 import org.springframework.stereotype.Service;
 
+import com.ms.user.data.protocol.GenerateToken;
 import com.ms.user.data.usecase.DbUpdateToken;
 import com.ms.user.domain.usecase.UpdateToken;
+import com.ms.user.infra.cryptography.JwtAdapter;
 import com.ms.user.infra.database.UserPostgresRepository;
 
 @Service
@@ -16,6 +18,7 @@ public class MakeUpdateToken {
     private UserPostgresRepository userPostgresRepository;
     
     public UpdateToken build () {
-        return new DbUpdateToken(this.userPostgresRepository); 
+        GenerateToken generateToken = new JwtAdapter();
+        return new DbUpdateToken(generateToken, this.userPostgresRepository); 
     }
 }
