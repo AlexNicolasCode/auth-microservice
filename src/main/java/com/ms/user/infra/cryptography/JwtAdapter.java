@@ -10,10 +10,13 @@ public class JwtAdapter implements GenerateToken {
 
     @Override
     public String generateToken(Long userId) {
+        Long now = new Date().getTime();
+        int sevenDays = 7 * 60 * 60 * 24 * 1000;
+        Date serverDaysOnFuture = new Date(now + sevenDays);
         String userIdConverted = userId.toString();
         return Jwts.builder()
             .claim("id", userIdConverted)
-            .expiration(new Date(System.currentTimeMillis() + 3600000))
+            .expiration(serverDaysOnFuture)
             .compact();
     }
 }
