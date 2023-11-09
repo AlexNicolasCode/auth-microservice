@@ -1,9 +1,12 @@
 package com.ms.user.data.usecase;
 
+import org.springframework.stereotype.Component;
+
 import com.ms.user.data.protocol.SendEmail;
 import com.ms.user.domain.model.User;
 import com.ms.user.domain.usecase.SendWelcomeEmail;
 
+@Component
 public class RemoteSendWelcomeEmail implements SendWelcomeEmail {
     public RemoteSendWelcomeEmail(SendEmail sendEmail) {
         this.sendEmail = sendEmail;
