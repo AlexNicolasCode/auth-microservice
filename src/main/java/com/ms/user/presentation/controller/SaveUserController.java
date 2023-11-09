@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ms.user.domain.dto.SaveUserDto;
 import com.ms.user.domain.model.User;
 import com.ms.user.domain.usecase.SaveUser;
 import com.ms.user.domain.usecase.SendWelcomeEmail;
 import com.ms.user.domain.usecase.UpdateToken;
 import com.ms.user.main.factory.usecase.MakeSaveUser;
 import com.ms.user.main.factory.usecase.MakeUpdateToken;
-import com.ms.user.presentation.dto.SaveUserDto;
 import com.ms.user.presentation.protocol.Controller;
 import com.ms.user.presentation.protocol.Validator;
 
