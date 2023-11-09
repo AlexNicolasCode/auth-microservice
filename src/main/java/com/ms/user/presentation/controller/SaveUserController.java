@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ms.user.domain.dto.SaveUserDto;
 import com.ms.user.domain.model.User;
 import com.ms.user.domain.usecase.SaveUser;
+import com.ms.user.domain.usecase.SendWelcomeEmail;
 import com.ms.user.domain.usecase.UpdateToken;
 import com.ms.user.main.factory.usecase.MakeSaveUser;
 import com.ms.user.main.factory.usecase.MakeUpdateToken;
-import com.ms.user.presentation.dto.SaveUserDto;
 import com.ms.user.presentation.protocol.Controller;
 import com.ms.user.presentation.protocol.Validator;
 
@@ -29,16 +30,19 @@ public class SaveUserController implements Controller<SaveUserDto, Errors, Objec
 	public SaveUserController(
 		MakeSaveUser makeMaveUser,
 		MakeUpdateToken makeUpdateToken,
-		Validator<Errors> validator
+		Validator<Errors> validator,
+		SendWelcomeEmail sendWelcomeEmail
 	) {
 		this.saveUser = makeMaveUser.build();
 		this.updateToken = makeUpdateToken.build();
 		this.validator = validator;
+		this.sendWelcomeEmail = sendWelcomeEmail;
 	}
 	
 	private SaveUser saveUser;
 	private UpdateToken updateToken;
 	private Validator<Errors> validator;
+	private SendWelcomeEmail sendWelcomeEmail;
     
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
 	public ResponseEntity<Object> handle(@Valid @RequestBody SaveUserDto userDto, Errors errors) {
@@ -52,6 +56,7 @@ public class SaveUserController implements Controller<SaveUserDto, Errors, Objec
 		User savedUser = saveUser.save(user);
 		String token = updateToken.update(savedUser.getId());
 		response.put("token", token);
+		sendWelcomeEmail.sendEmail(user);
 		return new ResponseEntity<Object>(response, HttpStatus.CREATED);
 	}    
 }
