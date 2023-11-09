@@ -2,10 +2,13 @@ package com.ms.user.infra.cryptography;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
 import com.ms.user.data.protocol.GenerateToken;
 
 import io.jsonwebtoken.Jwts;
 
+@Component
 public class JwtAdapter implements GenerateToken {
 
     @Override

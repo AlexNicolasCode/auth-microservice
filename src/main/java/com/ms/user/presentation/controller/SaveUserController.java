@@ -17,8 +17,6 @@ import com.ms.user.domain.model.User;
 import com.ms.user.domain.usecase.SaveUser;
 import com.ms.user.domain.usecase.SendWelcomeEmail;
 import com.ms.user.domain.usecase.UpdateToken;
-import com.ms.user.main.factory.usecase.MakeSaveUser;
-import com.ms.user.main.factory.usecase.MakeUpdateToken;
 import com.ms.user.presentation.protocol.Controller;
 import com.ms.user.presentation.protocol.Validator;
 
@@ -28,13 +26,13 @@ import jakarta.validation.Valid;
 public class SaveUserController implements Controller<SaveUserDto, Errors, Object> {
 
 	public SaveUserController(
-		MakeSaveUser makeMaveUser,
-		MakeUpdateToken makeUpdateToken,
+		SaveUser saveUser,
+		UpdateToken updateToken,
 		Validator<Errors> validator,
 		SendWelcomeEmail sendWelcomeEmail
 	) {
-		this.saveUser = makeMaveUser.build();
-		this.updateToken = makeUpdateToken.build();
+		this.saveUser = saveUser;
+		this.updateToken = updateToken;
 		this.validator = validator;
 		this.sendWelcomeEmail = sendWelcomeEmail;
 	}
