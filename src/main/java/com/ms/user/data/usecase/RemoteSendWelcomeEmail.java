@@ -16,6 +16,6 @@ public class RemoteSendWelcomeEmail implements SendWelcomeEmail {
 
     @Override
     public void sendEmail(User user) {
-        sendEmail.send(user, "Bem-vindo(A), " + user.getEmail(), "Testando!");
+        sendEmail.send(user, "Bem-vindo(A), " + user.getName(), "Testando!");
     }
 }
