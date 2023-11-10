@@ -43,7 +43,6 @@ public class DbUpdateTokenTest {
         assertEquals(this.generateTokenSpy.getCount(), 1);
     }
 
-
     @Test
     public void shouldCallUpdateTokenRepositoryWithCorrectParams() {
         DbUpdateToken sut = makeSut();
@@ -54,4 +53,15 @@ public class DbUpdateTokenTest {
         assertEquals(fakeUserId, this.updateTokenRepositorySpy.getUserId());
         assertEquals(this.generateTokenSpy.getResult(), this.updateTokenRepositorySpy.getToken());
     }
+
+    @Test
+    public void shouldCallUpdateTokenRepositoryOnce() {
+        DbUpdateToken sut = makeSut();
+        Long fakeUserId = new UserMock().build().getId();
+ 
+        sut.update(fakeUserId);
+
+        assertEquals(this.updateTokenRepositorySpy.getCount(), 1);
+    }
+
 }
