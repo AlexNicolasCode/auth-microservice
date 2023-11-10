@@ -2,7 +2,6 @@ package com.ms.user.data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -82,4 +81,18 @@ public class DbUpdateTokenTest {
         assertEquals(this.updateTokenRepositorySpy.getCount(), 1);
     }
 
+    @Test
+    public void shouldThrowIfUpdateTokenRepositoryThrows() {
+        GenerateTokenSpy generateTokenSpy = new GenerateTokenSpy();
+        UpdateTokenRepositorySpy updateTokenRepositorySpy = mock(UpdateTokenRepositorySpy.class);
+        DbUpdateToken sut = new DbUpdateToken(generateTokenSpy, updateTokenRepositorySpy);
+        Long fakeUserId = new UserMock().build().getId();
+        when(updateTokenRepositorySpy.updateToken(fakeUserId, generateTokenSpy.getResult())).thenThrow(mock(Error.class));
+ 
+        assertThrows(
+           Error.class,
+           () -> sut.update(fakeUserId),
+           "Exception was expected"
+        );
+    }
 }
