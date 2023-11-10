@@ -23,4 +23,15 @@ public class DbUpdateTokenTest {
         assertEquals(fakeUserId, generateTokenSpy.getUserId());
     }
 
+    @Test
+    public void shouldCallGenerateTokenOnce() {
+        GenerateTokenSpy generateTokenSpy = new GenerateTokenSpy();
+        UpdateTokenRepositorySpy updateTokenRepositorySpy = new UpdateTokenRepositorySpy();
+        DbUpdateToken sut = new DbUpdateToken(generateTokenSpy, updateTokenRepositorySpy);
+        Long fakeUserId = new UserMock().build().getId();
+ 
+        sut.update(fakeUserId);
+
+        assertEquals(generateTokenSpy.getCount(), 1);
+    }
 }
