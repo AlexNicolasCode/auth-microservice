@@ -19,4 +19,8 @@ public class SaveUserRepositorySpy implements SaveUserRepository {
     public User getUserParam() {
         return this.user;
     }
+
+    public int getCount() {
+        return this.count;
+    }
 }
