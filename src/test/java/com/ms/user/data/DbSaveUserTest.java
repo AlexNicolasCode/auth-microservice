@@ -24,4 +24,16 @@ public class DbSaveUserTest {
 
         assertEquals(fakePassword, hasherSpy.getPlaintext());
     }
+
+    @Test
+    public void shouldCallSaveUserRepositoryWithCorrectParam() {
+        HasherSpy hasherSpy = new HasherSpy();
+        SaveUserRepositorySpy saveUserRepositorySpy = new SaveUserRepositorySpy();
+        DbSaveUser sut = new DbSaveUser(hasherSpy, saveUserRepositorySpy);
+        User fakeUser = new UserMock().build();
+ 
+        sut.save(fakeUser);
+
+        assertEquals(fakeUser, saveUserRepositorySpy.getUserParam());
+    }
 }
