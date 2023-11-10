@@ -81,4 +81,18 @@ public class DbSaveUserTest {
 
         assertEquals(this.saveUserRepositorySpy.getCount(), 1);
     }
+
+    @Test
+    public void shouldThrowIfSaveUserRepositoryThrows() {
+        SaveUserRepositorySpy saveUserRepositorySpy = mock(SaveUserRepositorySpy.class);
+        DbSaveUser sut = new DbSaveUser(new HasherSpy(), saveUserRepositorySpy);
+        User fakeUser = new UserMock().build();
+        when(saveUserRepositorySpy.save(fakeUser)).thenThrow(mock(Error.class));
+ 
+        assertThrows(
+           Error.class,
+           () -> sut.save(fakeUser),
+           "Exception was expected"
+        );
+    }
 }
