@@ -35,6 +35,16 @@ public class DbSaveUserTest {
     }
 
     @Test
+    public void shouldCallHasherOnce() {
+        DbSaveUser sut = makeSut();
+        User fakeUser = new UserMock().build();
+ 
+        sut.save(fakeUser);
+
+        assertEquals(this.hasherSpy.getCount(), 1);
+    }
+
+    @Test
     public void shouldCallSaveUserRepositoryWithCorrectParam() {
         DbSaveUser sut = makeSut();
         User fakeUser = new UserMock().build();
