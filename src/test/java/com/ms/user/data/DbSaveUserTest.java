@@ -12,28 +12,35 @@ import com.ms.user.infra.mock.SaveUserRepositorySpy;
 
 public class DbSaveUserTest {
 
-    @Test
-    public void shouldCallHasherWithCorrectParam() {
+    private HasherSpy hasherSpy;
+    private SaveUserRepositorySpy saveUserRepositorySpy;
+
+    public DbSaveUser makeSut() {
         HasherSpy hasherSpy = new HasherSpy();
         SaveUserRepositorySpy saveUserRepositorySpy = new SaveUserRepositorySpy();
-        DbSaveUser sut = new DbSaveUser(hasherSpy, saveUserRepositorySpy);
+        this.hasherSpy = hasherSpy;
+        this.saveUserRepositorySpy = saveUserRepositorySpy;
+        return new DbSaveUser(hasherSpy, saveUserRepositorySpy);
+    }
+
+    @Test
+    public void shouldCallHasherWithCorrectParam() {
+        DbSaveUser sut = makeSut();
         User fakeUser = new UserMock().build();
         String fakePassword = fakeUser.getPassword();
  
         sut.save(fakeUser);
 
-        assertEquals(fakePassword, hasherSpy.getPlaintext());
+        assertEquals(fakePassword, this.hasherSpy.getPlaintext());
     }
 
     @Test
     public void shouldCallSaveUserRepositoryWithCorrectParam() {
-        HasherSpy hasherSpy = new HasherSpy();
-        SaveUserRepositorySpy saveUserRepositorySpy = new SaveUserRepositorySpy();
-        DbSaveUser sut = new DbSaveUser(hasherSpy, saveUserRepositorySpy);
+        DbSaveUser sut = makeSut();
         User fakeUser = new UserMock().build();
  
         sut.save(fakeUser);
 
-        assertEquals(fakeUser, saveUserRepositorySpy.getUserParam());
+        assertEquals(fakeUser, this.saveUserRepositorySpy.getUserParam());
     }
 }
