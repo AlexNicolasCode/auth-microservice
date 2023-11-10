@@ -11,27 +11,35 @@ import com.ms.user.infra.mock.UpdateTokenRepositorySpy;
 
 public class DbUpdateTokenTest {
 
-    @Test
-    public void shouldCallGenerateTokenWithCorrectParam() {
+    private GenerateTokenSpy generateTokenSpy;
+    private UpdateTokenRepositorySpy updateTokenRepositorySpy;
+
+    public DbUpdateToken makeSut() {
         GenerateTokenSpy generateTokenSpy = new GenerateTokenSpy();
         UpdateTokenRepositorySpy updateTokenRepositorySpy = new UpdateTokenRepositorySpy();
-        DbUpdateToken sut = new DbUpdateToken(generateTokenSpy, updateTokenRepositorySpy);
+        this.generateTokenSpy = generateTokenSpy;
+        this.updateTokenRepositorySpy = updateTokenRepositorySpy;
+        return new DbUpdateToken(generateTokenSpy, updateTokenRepositorySpy);
+    }
+
+
+    @Test
+    public void shouldCallGenerateTokenWithCorrectParam() {
+        DbUpdateToken sut = makeSut();
         Long fakeUserId = new UserMock().build().getId();
  
         sut.update(fakeUserId);
 
-        assertEquals(fakeUserId, generateTokenSpy.getUserId());
+        assertEquals(fakeUserId, this.generateTokenSpy.getUserId());
     }
 
     @Test
     public void shouldCallGenerateTokenOnce() {
-        GenerateTokenSpy generateTokenSpy = new GenerateTokenSpy();
-        UpdateTokenRepositorySpy updateTokenRepositorySpy = new UpdateTokenRepositorySpy();
-        DbUpdateToken sut = new DbUpdateToken(generateTokenSpy, updateTokenRepositorySpy);
+        DbUpdateToken sut = makeSut();
         Long fakeUserId = new UserMock().build().getId();
  
         sut.update(fakeUserId);
 
-        assertEquals(generateTokenSpy.getCount(), 1);
+        assertEquals(this.generateTokenSpy.getCount(), 1);
     }
 }
