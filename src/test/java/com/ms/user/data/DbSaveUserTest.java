@@ -1,6 +1,10 @@
 package com.ms.user.data;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 
@@ -20,7 +24,7 @@ public class DbSaveUserTest {
         SaveUserRepositorySpy saveUserRepositorySpy = new SaveUserRepositorySpy();
         this.hasherSpy = hasherSpy;
         this.saveUserRepositorySpy = saveUserRepositorySpy;
-        return new DbSaveUser(hasherSpy, saveUserRepositorySpy);
+        return new DbSaveUser(this.hasherSpy, this.saveUserRepositorySpy);
     }
 
     @Test
@@ -42,6 +46,20 @@ public class DbSaveUserTest {
         sut.save(fakeUser);
 
         assertEquals(this.hasherSpy.getCount(), 1);
+    }
+
+    @Test
+    public void shouldThrowIfHasherThrows() {
+        HasherSpy hasherSpy = mock(HasherSpy.class);
+        DbSaveUser sut = new DbSaveUser(hasherSpy, new SaveUserRepositorySpy());
+        User fakeUser = new UserMock().build();
+        when(hasherSpy.hash(anyString())).thenThrow(mock(Error.class));
+ 
+        assertThrows(
+           Error.class,
+           () -> sut.save(fakeUser),
+           "Exception was expected"
+        );
     }
 
     @Test
