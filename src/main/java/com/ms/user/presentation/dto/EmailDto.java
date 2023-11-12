@@ -1,4 +1,4 @@
-package com.ms.user.domain.dto;
+package com.ms.user.presentation.dto;
 
 public class EmailDto {
 
