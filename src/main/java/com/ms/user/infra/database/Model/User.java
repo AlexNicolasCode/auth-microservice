@@ -1,14 +1,28 @@
-package com.ms.user.domain.model;
+package com.ms.user.infra.database.Model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "tb_user")
 public class User {
+    @Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
 	private String name;
+	
+    @Column(nullable = false)
     private String email;
+    
+    @Column(nullable = false)
     private String password;
+    
+    @Column(length = 1000)
     private String token;
 
     public Long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Long id) {
@@ -16,7 +30,7 @@ public class User {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public void setName(String name) {
@@ -24,7 +38,7 @@ public class User {
     }
 
     public String getEmail() {
-        return this.email;
+        return email;
     }
 
     public void setEmail(String email) {
@@ -32,7 +46,7 @@ public class User {
     }
 
     public String getPassword() {
-        return this.password;
+        return password;
     }
 
     public void setPassword(String password) {
@@ -40,7 +54,7 @@ public class User {
     }
 
     public String getToken() {
-        return this.token;
+        return token;
     }
 
     public void setToken(String token) {
