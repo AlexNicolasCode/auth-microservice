@@ -10,6 +10,7 @@ import org.junit.Test;
 import com.ms.user.data.usecase.DbUpdateToken;
 import com.ms.user.domain.mock.UserMock;
 import com.ms.user.infra.mock.GenerateTokenSpy;
+import com.ms.user.infra.mock.GetKeysSpy;
 import com.ms.user.infra.mock.UpdateTokenRepositorySpy;
 
 public class DbUpdateTokenTest {
@@ -18,11 +19,12 @@ public class DbUpdateTokenTest {
     private UpdateTokenRepositorySpy updateTokenRepositorySpy;
 
     public DbUpdateToken makeSut() {
+        GetKeysSpy getKeysSpy = new GetKeysSpy();
         GenerateTokenSpy generateTokenSpy = new GenerateTokenSpy();
         UpdateTokenRepositorySpy updateTokenRepositorySpy = new UpdateTokenRepositorySpy();
         this.generateTokenSpy = generateTokenSpy;
         this.updateTokenRepositorySpy = updateTokenRepositorySpy;
-        return new DbUpdateToken(generateTokenSpy, updateTokenRepositorySpy);
+        return new DbUpdateToken(getKeysSpy, generateTokenSpy, updateTokenRepositorySpy);
     }
 
 
@@ -48,10 +50,17 @@ public class DbUpdateTokenTest {
 
     @Test
     public void shouldThrowIfGenerateTokenThrows() {
+        GetKeysSpy getKeysSpy = new GetKeysSpy();
         GenerateTokenSpy generateTokenSpy = mock(GenerateTokenSpy.class);
-        DbUpdateToken sut = new DbUpdateToken(generateTokenSpy, new UpdateTokenRepositorySpy());
+        DbUpdateToken sut = new DbUpdateToken(getKeysSpy, generateTokenSpy, new UpdateTokenRepositorySpy());
         Long fakeUserId = new UserMock().build().getId();
-        when(generateTokenSpy.generateToken(fakeUserId)).thenThrow(mock(Error.class));
+        when(
+            generateTokenSpy.generateToken(
+                fakeUserId,
+                getKeysSpy.getPublicKey(),
+                getKeysSpy.getPrivateKey()
+            )
+        ).thenThrow(mock(Error.class));
  
         assertThrows(
            Error.class,
@@ -83,9 +92,10 @@ public class DbUpdateTokenTest {
 
     @Test
     public void shouldThrowIfUpdateTokenRepositoryThrows() {
+        GetKeysSpy getKeysSpy = new GetKeysSpy();
         GenerateTokenSpy generateTokenSpy = new GenerateTokenSpy();
         UpdateTokenRepositorySpy updateTokenRepositorySpy = mock(UpdateTokenRepositorySpy.class);
-        DbUpdateToken sut = new DbUpdateToken(generateTokenSpy, updateTokenRepositorySpy);
+        DbUpdateToken sut = new DbUpdateToken(getKeysSpy, generateTokenSpy, updateTokenRepositorySpy);
         Long fakeUserId = new UserMock().build().getId();
         when(updateTokenRepositorySpy.updateToken(fakeUserId, generateTokenSpy.getResult())).thenThrow(mock(Error.class));
  
