@@ -23,7 +23,7 @@ import com.ms.user.presentation.protocol.Validator;
 import jakarta.validation.Valid;
 
 @RestController
-public class SaveUserController implements Controller<SaveUserDto, Errors, Object> {
+public class SaveUserController implements Controller<SaveUserDto, Errors, ResponseEntity<Object>> {
 
 	public SaveUserController(
 		SaveUser saveUser,
