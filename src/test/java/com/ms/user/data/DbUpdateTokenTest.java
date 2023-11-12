@@ -15,6 +15,7 @@ import com.ms.user.infra.mock.UpdateTokenRepositorySpy;
 
 public class DbUpdateTokenTest {
 
+    private GetKeysSpy getKeysSpy;
     private GenerateTokenSpy generateTokenSpy;
     private UpdateTokenRepositorySpy updateTokenRepositorySpy;
 
@@ -22,11 +23,21 @@ public class DbUpdateTokenTest {
         GetKeysSpy getKeysSpy = new GetKeysSpy();
         GenerateTokenSpy generateTokenSpy = new GenerateTokenSpy();
         UpdateTokenRepositorySpy updateTokenRepositorySpy = new UpdateTokenRepositorySpy();
+        this.getKeysSpy = getKeysSpy;
         this.generateTokenSpy = generateTokenSpy;
         this.updateTokenRepositorySpy = updateTokenRepositorySpy;
         return new DbUpdateToken(getKeysSpy, generateTokenSpy, updateTokenRepositorySpy);
     }
 
+    @Test
+    public void shouldCallGetKeysTwice() {
+        DbUpdateToken sut = makeSut();
+        Long fakeUserId = new UserMock().build().getId();
+ 
+        sut.update(fakeUserId);
+
+        assertEquals(this.getKeysSpy.getCount(), 2);
+    }
 
     @Test
     public void shouldCallGenerateTokenWithCorrectParam() {
