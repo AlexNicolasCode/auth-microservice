@@ -1,10 +1,10 @@
-package com.ms.user.infra.database.Model;
+package com.ms.user.infra.database.entity;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tb_user")
-public class User {
+public class UserEntity {
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
