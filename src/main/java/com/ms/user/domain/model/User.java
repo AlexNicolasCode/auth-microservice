@@ -18,6 +18,7 @@ public class User {
     @Column(nullable = false)
     private String password;
     
+    @Column(length = 1000)
     private String token;
 
     public Long getId() {
