@@ -34,3 +34,7 @@ build/
 
 ### Build ###
 bin
+
+### Key ###
+id_rsa
+id_rsa.pub
