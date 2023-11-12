@@ -1,4 +1,4 @@
-package com.ms.user.domain.dto;
+package com.ms.user.presentation.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
