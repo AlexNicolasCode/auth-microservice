@@ -22,7 +22,6 @@ public class RabbitMQProducer implements SendEmail {
 
     public void send(User userModel, String subject, String text) {
         EmailDto emailDto = new EmailDto();
-        emailDto.setUserId(userModel.getId());
         emailDto.setEmailTo(userModel.getEmail());
         emailDto.setSubject(subject);
         emailDto.setText(userModel.getName() + text);
