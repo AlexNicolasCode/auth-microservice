@@ -36,5 +36,5 @@ build/
 bin
 
 ### Key ###
-id_rsa
-id_rsa.pub
+public.key
+private.key
