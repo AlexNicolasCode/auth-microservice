@@ -19,13 +19,11 @@ public class UserPostgresRepository implements GetUserByAccessTokenRepository, S
     private UserSpringRepository userSpringRepository;
 
     @Override
-    public User save(User user) {
+    public Long save(User user) {
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(user, userEntity);
         UserEntity userFromDatabase = this.userSpringRepository.save(userEntity);
-        User userModel = new User();
-        BeanUtils.copyProperties(userFromDatabase, userModel);
-        return userModel;
+        return userFromDatabase.getId();
     }
 
     @Override

@@ -51,8 +51,8 @@ public class SaveUserController implements Controller<SaveUserDto, Errors, Respo
 		}
 		User user = new User();
 		BeanUtils.copyProperties(userDto, user);
-		User savedUser = saveUser.save(user);
-		String token = updateToken.update(savedUser.getId());
+		Long userId = saveUser.save(user);
+		String token = updateToken.update(userId);
 		response.put("token", token);
 		sendWelcomeEmail.sendEmail(user);
 		return new ResponseEntity<Object>(response, HttpStatus.CREATED);

@@ -18,9 +18,10 @@ public class DbSaveUser implements SaveUser {
     private Hasher hasher;
 
     @Override
-    public User save(User user) {
+    public Long save(User user) {
         String hash = this.hasher.hash(user.getPassword());
         user.setPassword(hash);
-        return this.saveUserRepository.save(user);
+        Long userId = this.saveUserRepository.save(user);
+        return userId;
     }
 }
