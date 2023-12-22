@@ -1,7 +1,8 @@
 package com.ms.user.data.protocol;
 
-import java.security.Key;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 
 public interface GenerateToken {
-    String generateToken(Long userId, Key publicKey, Key privateKey);
+    String generateToken(Long userId, PublicKey publicKey, PrivateKey privateKey);
 }

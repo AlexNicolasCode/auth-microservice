@@ -1,8 +1,9 @@
 package com.ms.user.data.protocol;
 
-import java.security.Key;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 
 public interface GetKeys {
-    Key getPublicKey();
-    Key getPrivateKey();
+    PublicKey getPublicKey();
+    PrivateKey getPrivateKey();
 }
