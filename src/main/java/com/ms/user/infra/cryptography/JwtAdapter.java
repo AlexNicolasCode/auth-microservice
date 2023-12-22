@@ -1,6 +1,7 @@
 package com.ms.user.infra.cryptography; 
 
-import java.security.Key;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Date;
@@ -15,7 +16,7 @@ import com.ms.user.data.protocol.GenerateToken;
 public class JwtAdapter implements GenerateToken {
 
     @Override
-    public String generateToken(Long userId, Key publicKey, Key privateKey) {
+    public String generateToken(Long userId, PublicKey publicKey, PrivateKey privateKey) {
         Long now = new Date().getTime();
         int sevenDays = 7 * 60 * 60 * 24 * 1000;
         Date serverDaysOnFuture = new Date(now + sevenDays);
