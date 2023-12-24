@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 import com.ms.user.data.protocol.GetUserByAccessTokenRepository;
 import com.ms.user.data.protocol.SaveUserRepository;
 import com.ms.user.data.protocol.UpdateTokenRepository;
+import com.ms.user.domain.model.Email;
+import com.ms.user.domain.model.Hash;
 import com.ms.user.domain.model.User;
 import com.ms.user.infra.database.entity.UserEntity;
 
@@ -19,9 +21,11 @@ public class UserPostgresRepository implements GetUserByAccessTokenRepository, S
     private UserSpringRepository userSpringRepository;
 
     @Override
-    public Long save(User user) {
+    public Long save(String name, Email email, Hash passwordHashed) {
         UserEntity userEntity = new UserEntity();
-        BeanUtils.copyProperties(user, userEntity);
+        userEntity.setName(name);
+        userEntity.setEmail(email.toString());
+        userEntity.setPassword(passwordHashed.toString());
         UserEntity userFromDatabase = this.userSpringRepository.save(userEntity);
         return userFromDatabase.getId();
     }
