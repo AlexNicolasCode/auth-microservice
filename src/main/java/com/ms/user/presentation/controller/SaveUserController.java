@@ -42,12 +42,12 @@ public class SaveUserController implements Controller<SaveUserDto, ResponseEntit
 			response.put("error", errorMessage);
 			return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
 		}
-		DefaultReturn<Long> result = this.saveUser.save(
+		this.saveUser.save(
 			userDto.getName(),
 			userDto.getEmail(),
 			userDto.getPassword()
 		);
-		String token = updateToken.update(result.getContent());
+		String token = updateToken.update(userDto.getEmail());
 		response.put("token", token);
 		sendWelcomeEmail.sendEmail(userDto.getName(), userDto.getEmail());
 		return new ResponseEntity<Object>(response, HttpStatus.CREATED);
