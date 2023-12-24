@@ -1,9 +1,14 @@
 package com.ms.user.domain.model;
 
 public class User {
+	private Long id;
 	private String name;
     private Email email;
     private Password password;
+
+    public Long getId() {
+        return this.id;
+    }
 
     public String getName() {
         return this.name;
