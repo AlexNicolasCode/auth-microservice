@@ -16,4 +16,8 @@ public final class Email {
         }
         this.value = value;
     }
+
+    public String getValue() {
+        return value;
+    }
 }
