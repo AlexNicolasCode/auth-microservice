@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ms.user.domain.dto.SaveUserDto;
+import com.ms.user.domain.model.DefaultReturn;
 import com.ms.user.domain.usecase.SaveUser;
 import com.ms.user.domain.usecase.SendWelcomeEmail;
 import com.ms.user.domain.usecase.UpdateToken;
@@ -41,12 +42,14 @@ public class SaveUserController implements Controller<SaveUserDto, ResponseEntit
 			response.put("error", errorMessage);
 			return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
 		}
-		User user = new User();
-		BeanUtils.copyProperties(userDto, user);
-		Long userId = saveUser.save(user);
-		String token = updateToken.update(userId);
+		DefaultReturn<Long> result = this.saveUser.save(
+			userDto.getName(),
+			userDto.getEmail(),
+			userDto.getPassword()
+		);
+		String token = updateToken.update(result.getContent());
 		response.put("token", token);
-		sendWelcomeEmail.sendEmail(user);
+		sendWelcomeEmail.sendEmail(userDto.getName(), userDto.getEmail());
 		return new ResponseEntity<Object>(response, HttpStatus.CREATED);
-	}    
+	}
 }
