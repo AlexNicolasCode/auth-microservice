@@ -39,7 +39,9 @@ public class UserPostgresRepository implements GetUserByAccessTokenRepository, S
     }
 
     @Override
-    public String updateToken(Long userId, String token) {
-        return this.userSpringRepository.updateToken(userId, token);
+    public String updateToken(Email email, String token) {
+        return this.userSpringRepository.updateToken(email.getValue(), token);
+    }
+
     }
 }
