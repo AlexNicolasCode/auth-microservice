@@ -2,8 +2,8 @@ package com.ms.user.domain.model;
 
 public class User {
 	private String name;
-    private String email;
-    private String password;
+    private Email email;
+    private Password password;
 
     public String getName() {
         return this.name;
@@ -13,19 +13,19 @@ public class User {
         this.name = name;
     }
 
-    public String getEmail() {
+    public Email getEmail() {
         return this.email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(Email email) {
         this.email = email;
     }
 
-    public String getPassword() {
+    public Password getPassword() {
         return this.password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(Password password) {
         this.password = password;
     }
 }
