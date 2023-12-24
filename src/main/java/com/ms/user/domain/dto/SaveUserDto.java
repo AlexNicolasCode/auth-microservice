@@ -1,22 +1,30 @@
 package com.ms.user.domain.dto;
 
-
 import com.ms.user.domain.model.Email;
 import com.ms.user.domain.model.Password;
 
 public class SaveUserDto {
-    private final String name;
-    private final Email email;
-    private final Password password;
+    private String name;
+    private Email email;
+    private Password password;
+    private String errorMessage;
 
     public SaveUserDto(
         String name,
-        Email email,
-        Password password
+        String email,
+        String password
     ) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
+        try {
+            this.name = name;
+            this.email = new Email(email);
+            this.password = new Password(password);
+        } catch (Exception error) {
+            this.errorMessage = error.getMessage();
+        }
+    }
+
+    public String getError() {
+        return errorMessage;
     }
 
     public String getName() {
