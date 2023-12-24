@@ -4,15 +4,17 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import com.ms.user.data.protocol.GetUserByAccessTokenRepository;
+import com.ms.user.data.protocol.LoadUserByEmailRepository;
 import com.ms.user.data.protocol.SaveUserRepository;
 import com.ms.user.data.protocol.UpdateTokenRepository;
 import com.ms.user.domain.model.Email;
 import com.ms.user.domain.model.Hash;
+import com.ms.user.domain.model.Password;
 import com.ms.user.domain.model.User;
 import com.ms.user.infra.database.entity.UserEntity;
 
 @Component
-public class UserPostgresRepository implements GetUserByAccessTokenRepository, SaveUserRepository, UpdateTokenRepository {
+public class UserPostgresRepository implements GetUserByAccessTokenRepository, SaveUserRepository, UpdateTokenRepository, LoadUserByEmailRepository {
     
     public UserPostgresRepository(UserSpringRepository userSpringRepository) {
         this.userSpringRepository = userSpringRepository;
@@ -43,5 +45,19 @@ public class UserPostgresRepository implements GetUserByAccessTokenRepository, S
         return this.userSpringRepository.updateToken(email.getValue(), token);
     }
 
+    @Override
+    public User loadUserByEmail(Email email) {
+        UserEntity userEntity = this.userSpringRepository.getByEmail(email.getValue());
+        User userModel = new User();
+        try {
+            Email emailFromDatabase = new Email(userEntity.getEmail());
+            Password passwordFromDatabase = new Password(userEntity.getPassword());
+            userModel.setName(userEntity.getName());
+            userModel.setEmail(emailFromDatabase);
+            userModel.setPassword(passwordFromDatabase);
+            return userModel;
+        } catch (Exception error) {
+            return userModel;
+        }
     }
 }
