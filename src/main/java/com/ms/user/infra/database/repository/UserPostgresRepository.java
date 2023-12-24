@@ -24,8 +24,8 @@ public class UserPostgresRepository implements GetUserByAccessTokenRepository, S
     public Long save(String name, Email email, Hash passwordHashed) {
         UserEntity userEntity = new UserEntity();
         userEntity.setName(name);
-        userEntity.setEmail(email.toString());
-        userEntity.setPassword(passwordHashed.toString());
+        userEntity.setEmail(email.getValue());
+        userEntity.setPassword(passwordHashed.getValue());
         UserEntity userFromDatabase = this.userSpringRepository.save(userEntity);
         return userFromDatabase.getId();
     }
