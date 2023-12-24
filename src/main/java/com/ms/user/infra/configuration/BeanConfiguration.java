@@ -12,6 +12,7 @@ import com.ms.user.data.protocol.UpdateTokenRepository;
 import com.ms.user.data.usecase.DbSaveUser;
 import com.ms.user.data.usecase.DbUpdateToken;
 import com.ms.user.data.usecase.RemoteSendWelcomeEmail;
+import com.ms.user.domain.model.Password;
 import com.ms.user.domain.usecase.SaveUser;
 import com.ms.user.domain.usecase.SendWelcomeEmail;
 import com.ms.user.domain.usecase.UpdateToken;
@@ -20,7 +21,7 @@ import com.ms.user.domain.usecase.UpdateToken;
 public class BeanConfiguration {
 
     @Bean
-    SaveUser saveUser(Hasher hasher, SaveUserRepository saveUserRepository) {
+    SaveUser saveUser(Hasher<Password> hasher, SaveUserRepository saveUserRepository) {
         return new DbSaveUser(hasher, saveUserRepository);
     }
 
