@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.ms.user.data.protocol.SendEmail;
-import com.ms.user.domain.model.User;
+import com.ms.user.domain.model.Email;
 import com.ms.user.presentation.dto.EmailDto;
 
 @Component
@@ -20,11 +20,11 @@ public class RabbitMQProducer implements SendEmail {
     @Value(value = "${broker.queue.email.name}")
     private String routingKey;
 
-    public void send(User userModel, String subject, String text) {
+    public void send(String userName, Email userEmail, String subject, String text) {
         EmailDto emailDto = new EmailDto();
-        emailDto.setEmailTo(userModel.getEmail());
+        emailDto.setEmailTo(userName);
         emailDto.setSubject(subject);
-        emailDto.setText(userModel.getName() + text);
+        emailDto.setText(userEmail + text);
         rabbitTemplate.convertAndSend("", routingKey, emailDto);
     }
 }

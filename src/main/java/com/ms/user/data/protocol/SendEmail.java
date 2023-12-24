@@ -1,7 +1,7 @@
 package com.ms.user.data.protocol;
 
-import com.ms.user.domain.model.User;
+import com.ms.user.domain.model.Email;
 
 public interface SendEmail {
-    void send(User user, String subject, String text);
+    void send(String userName, Email userEmail, String subject, String text);
 }

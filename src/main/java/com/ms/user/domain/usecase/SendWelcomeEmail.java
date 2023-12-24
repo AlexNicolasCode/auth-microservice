@@ -1,7 +1,7 @@
 package com.ms.user.domain.usecase;
 
-import com.ms.user.domain.model.User;
+import com.ms.user.domain.model.Email;
 
 public interface SendWelcomeEmail {
-    void sendEmail(User user);
+    void sendEmail(String userName, Email userEmail);
 }
