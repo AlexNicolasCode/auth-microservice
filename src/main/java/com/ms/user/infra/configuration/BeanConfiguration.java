@@ -21,7 +21,7 @@ import com.ms.user.domain.usecase.UpdateToken;
 public class BeanConfiguration {
 
     @Bean
-    SaveUser saveUser(Hasher<Password> hasher, SaveUserRepository saveUserRepository) {
+    SaveUser saveUser(Hasher hasher, SaveUserRepository saveUserRepository) {
         return new DbSaveUser(hasher, saveUserRepository);
     }
 
