@@ -7,12 +7,12 @@ import com.ms.user.data.protocol.Hasher;
 import com.ms.user.domain.model.Hash;
 
 @Component
-public class BCryptPasswordAdapter<T> implements Hasher<T> {
+public class BCryptPasswordAdapter implements Hasher {
 
     @Override
-    public Hash hash(T plaintext) {
+    public Hash hash(String plaintext) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String hashString = encoder.encode(plaintext.toString());
+        String hashString = encoder.encode(plaintext);
         return new Hash(hashString);
     }
 
