@@ -4,13 +4,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.ms.user.data.protocol.Hasher;
+import com.ms.user.domain.model.Hash;
 
 @Component
-public class BCryptPasswordAdapter implements Hasher {
+public class BCryptPasswordAdapter<T> implements Hasher<T> {
 
     @Override
-    public String hash(String plaintext) {
+    public Hash hash(T plaintext) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        return encoder.encode(plaintext);
+        String hashString = encoder.encode(plaintext.toString());
+        return new Hash(hashString);
     }
+
 }
