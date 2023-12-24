@@ -1,5 +1,7 @@
 package com.ms.user.data.protocol;
 
-public interface Hasher {
-    String hash(String plaintext);
+import com.ms.user.domain.model.Hash;
+
+public interface Hasher<T> {
+    Hash hash(T plaintext);
 }
