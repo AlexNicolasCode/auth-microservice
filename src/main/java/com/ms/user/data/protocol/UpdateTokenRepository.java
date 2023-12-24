@@ -1,5 +1,7 @@
 package com.ms.user.data.protocol;
 
+import com.ms.user.domain.model.Email;
+
 public interface UpdateTokenRepository {
-    String updateToken(Long userId, String token);
+    String updateToken(Email email, String token);
 }

@@ -40,11 +40,11 @@ public class DbAuthentication implements Authenticate {
             return new DefaultReturn<String>("Invalid Password", null);
         }
         String token = this.generateToken.generateToken(
-            user.getId(),
+            user.getEmail(),
             this.getKeys.getPublicKey(),
             this.getKeys.getPrivateKey()
         );
-        this.updateTokenRepository.updateToken(user.getId(), token);
+        this.updateTokenRepository.updateToken(user.getEmail(), token);
         return new DefaultReturn<String>(null, token);
     }
 }
