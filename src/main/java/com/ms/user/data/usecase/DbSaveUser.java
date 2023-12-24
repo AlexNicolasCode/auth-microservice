@@ -10,7 +10,7 @@ import com.ms.user.domain.usecase.SaveUser;
 
 public class DbSaveUser implements SaveUser {
     public DbSaveUser (
-        Hasher<Password> hasher,
+        Hasher hasher,
         SaveUserRepository saveUserRepository
     ) {
         this.saveUserRepository = saveUserRepository;
@@ -18,11 +18,11 @@ public class DbSaveUser implements SaveUser {
     }
 
     private SaveUserRepository saveUserRepository;
-    private Hasher<Password> hasher;
+    private Hasher hasher;
 
     @Override
     public DefaultReturn<Long> save(String name, Email email, Password password) {
-        Hash passwordHashed = this.hasher.hash(password);
+        Hash passwordHashed = this.hasher.hash(password.getValue());
         Long userId = this.saveUserRepository.save(name, email, passwordHashed);
         return new DefaultReturn<Long>(null, userId);
     }
