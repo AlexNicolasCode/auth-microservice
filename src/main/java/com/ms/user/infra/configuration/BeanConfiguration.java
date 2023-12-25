@@ -11,11 +11,14 @@ import com.ms.user.data.protocol.LoadUserByEmailRepository;
 import com.ms.user.data.protocol.SaveUserRepository;
 import com.ms.user.data.protocol.SendEmail;
 import com.ms.user.data.protocol.UpdateTokenRepository;
+import com.ms.user.data.protocol.GetUserCountByEmailRepository;
 import com.ms.user.data.usecase.DbAuthentication;
+import com.ms.user.data.usecase.DbCheckEmailAlreadyUsed;
 import com.ms.user.data.usecase.DbSaveUser;
 import com.ms.user.data.usecase.DbUpdateToken;
 import com.ms.user.data.usecase.RemoteSendWelcomeEmail;
 import com.ms.user.domain.usecase.Authenticate;
+import com.ms.user.domain.usecase.CheckEmailAlreadyUsed;
 import com.ms.user.domain.usecase.SaveUser;
 import com.ms.user.domain.usecase.SendWelcomeEmail;
 import com.ms.user.domain.usecase.UpdateToken;
@@ -36,6 +39,11 @@ public class BeanConfiguration {
     @Bean
     SendWelcomeEmail sendWelcomeEmail(SendEmail sendEmail) {
         return new RemoteSendWelcomeEmail(sendEmail);
+    }
+
+    @Bean
+    CheckEmailAlreadyUsed checkEmailAlreadyUsed(GetUserCountByEmailRepository getUserCountByEmailRepository) {
+        return new DbCheckEmailAlreadyUsed(getUserCountByEmailRepository);
     }
 
     @Bean
