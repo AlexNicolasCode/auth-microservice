@@ -24,7 +24,7 @@ public class AuthenticationController implements Controller<AuthenticationDto, R
 	
 	private Authenticate authenticate;
     
-	@RequestMapping(value = "/user/authentication", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<Object> handle(@RequestBody AuthenticationDto authenticationDto) {
 		Map<String, Object> response = new HashMap<String, Object>();
 		String errorMessage = authenticationDto.getError();

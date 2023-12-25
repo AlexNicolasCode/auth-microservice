@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ms.user.domain.dto.SaveUserDto;
-import com.ms.user.domain.model.DefaultReturn;
 import com.ms.user.domain.usecase.SaveUser;
 import com.ms.user.domain.usecase.SendWelcomeEmail;
 import com.ms.user.domain.usecase.UpdateToken;
@@ -34,7 +33,7 @@ public class SaveUserController implements Controller<SaveUserDto, ResponseEntit
 	private UpdateToken updateToken;
 	private SendWelcomeEmail sendWelcomeEmail;
     
-	@RequestMapping(value = "/user", method = RequestMethod.POST)
+	@RequestMapping(value = "/sign-up", method = RequestMethod.POST)
 	public ResponseEntity<Object> handle(@RequestBody SaveUserDto userDto) {
 		Map<String, Object> response = new HashMap<String, Object>();
 		String errorMessage = userDto.getError();
