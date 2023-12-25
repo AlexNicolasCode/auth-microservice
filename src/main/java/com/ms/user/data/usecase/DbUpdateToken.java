@@ -4,6 +4,7 @@ import com.ms.user.data.protocol.GenerateToken;
 import com.ms.user.data.protocol.GetKeys;
 import com.ms.user.data.protocol.UpdateTokenRepository;
 import com.ms.user.domain.model.Email;
+import com.ms.user.domain.model.Token;
 import com.ms.user.domain.usecase.UpdateToken;
 
 public class DbUpdateToken implements UpdateToken {
@@ -22,8 +23,8 @@ public class DbUpdateToken implements UpdateToken {
     private UpdateTokenRepository updateTokenRepository;
 
     @Override
-    public String update(Email email) {
-        String token = this.generateToken.generateToken(
+    public Token update(Email email) {
+        Token token = this.generateToken.generateToken(
             email,
             this.getKeys.getPublicKey(),
             this.getKeys.getPrivateKey()

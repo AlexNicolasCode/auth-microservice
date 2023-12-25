@@ -4,7 +4,8 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 
 import com.ms.user.domain.model.Email;
+import com.ms.user.domain.model.Token;
 
 public interface GenerateToken {
-    String generateToken(Email email, PublicKey publicKey, PrivateKey privateKey);
+    Token generateToken(Email email, PublicKey publicKey, PrivateKey privateKey);
 }

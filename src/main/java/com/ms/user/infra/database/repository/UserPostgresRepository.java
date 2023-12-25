@@ -10,6 +10,7 @@ import com.ms.user.data.protocol.UpdateTokenRepository;
 import com.ms.user.domain.model.Email;
 import com.ms.user.domain.model.Hash;
 import com.ms.user.domain.model.Password;
+import com.ms.user.domain.model.Token;
 import com.ms.user.domain.model.User;
 import com.ms.user.infra.database.entity.UserEntity;
 
@@ -41,8 +42,9 @@ public class UserPostgresRepository implements GetUserByAccessTokenRepository, S
     }
 
     @Override
-    public String updateToken(Email email, String token) {
-        return this.userSpringRepository.updateToken(email.getValue(), token);
+    public Token updateToken(Email email, Token token) {
+        String tokenString = this.userSpringRepository.updateToken(email.getValue(), token.getValue());
+        return new Token(tokenString);
     }
 
     @Override

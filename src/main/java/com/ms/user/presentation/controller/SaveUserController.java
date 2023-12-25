@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ms.user.domain.dto.SaveUserDto;
+import com.ms.user.domain.model.Token;
 import com.ms.user.domain.usecase.SaveUser;
 import com.ms.user.domain.usecase.SendWelcomeEmail;
 import com.ms.user.domain.usecase.UpdateToken;
@@ -46,8 +47,8 @@ public class SaveUserController implements Controller<SaveUserDto, ResponseEntit
 			userDto.getEmail(),
 			userDto.getPassword()
 		);
-		String token = updateToken.update(userDto.getEmail());
-		response.put("token", token);
+		Token token = updateToken.update(userDto.getEmail());
+		response.put("token", token.getValue());
 		sendWelcomeEmail.sendEmail(userDto.getName(), userDto.getEmail());
 		return new ResponseEntity<Object>(response, HttpStatus.CREATED);
 	}

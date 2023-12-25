@@ -8,6 +8,7 @@ import com.ms.user.data.protocol.UpdateTokenRepository;
 import com.ms.user.domain.model.DefaultReturn;
 import com.ms.user.domain.model.Email;
 import com.ms.user.domain.model.Password;
+import com.ms.user.domain.model.Token;
 import com.ms.user.domain.model.User;
 import com.ms.user.domain.usecase.Authenticate;
 
@@ -33,18 +34,18 @@ public class DbAuthentication implements Authenticate {
     }
 
     @Override
-    public DefaultReturn<String> auth(Email email, Password password) {
+    public DefaultReturn<Token> auth(Email email, Password password) {
         User user = this.loadUserByEmailRepository.loadUserByEmail(email);
         boolean isValidPassword = this.comparePassword.compare(password, user.getPassword());
         if (!isValidPassword) {
-            return new DefaultReturn<String>("Invalid Password", null);
+            return new DefaultReturn<>("Invalid Password", null);
         }
-        String token = this.generateToken.generateToken(
+        Token token = this.generateToken.generateToken(
             user.getEmail(),
             this.getKeys.getPublicKey(),
             this.getKeys.getPrivateKey()
         );
         this.updateTokenRepository.updateToken(user.getEmail(), token);
-        return new DefaultReturn<String>(null, token);
+        return new DefaultReturn<Token>(null, token);
     }
 }

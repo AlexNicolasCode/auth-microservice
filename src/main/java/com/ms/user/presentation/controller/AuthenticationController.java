@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ms.user.domain.dto.AuthenticationDto;
 import com.ms.user.domain.model.DefaultReturn;
+import com.ms.user.domain.model.Token;
 import com.ms.user.domain.usecase.Authenticate;
 import com.ms.user.presentation.protocol.Controller;
 
@@ -32,11 +33,11 @@ public class AuthenticationController implements Controller<AuthenticationDto, R
 			response.put("error", errorMessage);
 			return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
 		}
-		DefaultReturn<String> result = this.authenticate.auth(
+		DefaultReturn<Token> result = this.authenticate.auth(
 			authenticationDto.getEmail(),
 			authenticationDto.getPassword()
 		);
-        String token = result.getContent();
+        String token = result.getContent().getValue();
 		response.put("token", token);
 		return new ResponseEntity<Object>(response, HttpStatus.CREATED);
 	}

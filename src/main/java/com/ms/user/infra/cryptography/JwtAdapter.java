@@ -12,12 +12,13 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.ms.user.data.protocol.GenerateToken;
 import com.ms.user.domain.model.Email;
+import com.ms.user.domain.model.Token;
 
 @Component
 public class JwtAdapter implements GenerateToken {
 
     @Override
-    public String generateToken(Email email, PublicKey publicKey, PrivateKey privateKey) {
+    public Token generateToken(Email email, PublicKey publicKey, PrivateKey privateKey) {
         Long now = new Date().getTime();
         int sevenDays = 7 * 60 * 60 * 24 * 1000;
         Date serverDaysOnFuture = new Date(now + sevenDays);
@@ -27,6 +28,6 @@ public class JwtAdapter implements GenerateToken {
             .withClaim("email", email.getValue())
             .withExpiresAt(serverDaysOnFuture)
             .sign(algorithm);
-        return token;
+        return new Token(token);
     }
 }
