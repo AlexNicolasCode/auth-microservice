@@ -41,8 +41,8 @@ public class AuthenticationController implements Controller<AuthenticationDto, R
 			response.put("error", result.getError());
 			return new ResponseEntity<Object>(response, HttpStatus.UNAUTHORIZED);
 		} 
-        String token = result.getContent().getValue();
-		response.put("token", token);
+        Token token = result.getContent();
+		response.put("token", token.getValue());
 		return new ResponseEntity<Object>(response, HttpStatus.CREATED);
 	}
 }
