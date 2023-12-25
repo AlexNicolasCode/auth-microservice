@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ms.user.domain.dto.SaveUserDto;
+import com.ms.user.domain.model.DefaultReturn;
 import com.ms.user.domain.model.Token;
+import com.ms.user.domain.usecase.CheckEmailAlreadyUsed;
 import com.ms.user.domain.usecase.SaveUser;
 import com.ms.user.domain.usecase.SendWelcomeEmail;
 import com.ms.user.domain.usecase.UpdateToken;
@@ -21,15 +23,18 @@ import com.ms.user.presentation.protocol.Controller;
 public class SaveUserController implements Controller<SaveUserDto, ResponseEntity<Object>> {
 
 	public SaveUserController(
+		CheckEmailAlreadyUsed checkEmailAlreadyUsed,
 		SaveUser saveUser,
 		UpdateToken updateToken,
 		SendWelcomeEmail sendWelcomeEmail
 	) {
+		this.checkEmailAlreadyUsed = checkEmailAlreadyUsed;
 		this.saveUser = saveUser;
 		this.updateToken = updateToken;
 		this.sendWelcomeEmail = sendWelcomeEmail;
 	}
 	
+	private CheckEmailAlreadyUsed checkEmailAlreadyUsed;
 	private SaveUser saveUser;
 	private UpdateToken updateToken;
 	private SendWelcomeEmail sendWelcomeEmail;
@@ -41,6 +46,10 @@ public class SaveUserController implements Controller<SaveUserDto, ResponseEntit
 		if (errorMessage != null) {
 			response.put("error", errorMessage);
 			return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
+		}
+		DefaultReturn<Boolean> isAlreadyUsed = this.checkEmailAlreadyUsed.checkEmailAlreadyUsed(userDto.getEmail());
+		if (isAlreadyUsed.getContent()) {
+			return new ResponseEntity<Object>(response, HttpStatus.FORBIDDEN);
 		}
 		this.saveUser.save(
 			userDto.getName(),
