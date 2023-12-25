@@ -4,9 +4,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import com.ms.user.data.protocol.GetUserByAccessTokenRepository;
+import com.ms.user.data.protocol.GetUserCountByEmailRepository;
 import com.ms.user.data.protocol.LoadUserByEmailRepository;
 import com.ms.user.data.protocol.SaveUserRepository;
 import com.ms.user.data.protocol.UpdateTokenRepository;
+import com.ms.user.domain.model.DefaultReturn;
 import com.ms.user.domain.model.Email;
 import com.ms.user.domain.model.Hash;
 import com.ms.user.domain.model.Password;
@@ -15,7 +17,7 @@ import com.ms.user.domain.model.User;
 import com.ms.user.infra.database.entity.UserEntity;
 
 @Component
-public class UserPostgresRepository implements GetUserByAccessTokenRepository, SaveUserRepository, UpdateTokenRepository, LoadUserByEmailRepository {
+public class UserPostgresRepository implements GetUserByAccessTokenRepository, SaveUserRepository, UpdateTokenRepository, LoadUserByEmailRepository, GetUserCountByEmailRepository {
     
     public UserPostgresRepository(UserSpringRepository userSpringRepository) {
         this.userSpringRepository = userSpringRepository;
@@ -60,6 +62,16 @@ public class UserPostgresRepository implements GetUserByAccessTokenRepository, S
             return userModel;
         } catch (Exception error) {
             return userModel;
+        }
+    }
+
+    @Override
+    public DefaultReturn<Integer> getUserCountByEmail(Email email) {
+        try {
+            int count = this.userSpringRepository.getUserCountByEmail(email.getValue());
+            return new DefaultReturn<Integer>(null, count);
+        } catch (Exception error) {
+            return new DefaultReturn<>(error.getMessage(), null);
         }
     }
 }
