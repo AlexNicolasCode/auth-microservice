@@ -1,31 +1,27 @@
 package com.ms.user.domain.dto;
 
+import com.ms.user.domain.model.Email;
+
 public class EmailDto {
-    private String emailTo;
+    private Email emailTo;
     private String subject;
     private String text;
 
-    public String getEmailTo() {
-        return emailTo;
+    public EmailDto(Email emailTo, String subject, String text) {
+        this.emailTo = emailTo;
+        this.subject = subject;
+        this.text = text;
     }
 
-    public void setEmailTo(String emailTo) {
-        this.emailTo = emailTo;
+    public Email getEmailTo() {
+        return emailTo;
     }
 
     public String getSubject() {
         return subject;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
     public String getText() {
         return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 }

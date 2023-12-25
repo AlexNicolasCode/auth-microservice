@@ -20,11 +20,7 @@ public class RabbitMQProducer implements SendEmail {
     @Value(value = "${broker.queue.email.name}")
     private String routingKey;
 
-    public void send(String userName, Email userEmail, String subject, String text) {
-        EmailDto emailDto = new EmailDto();
-        emailDto.setEmailTo(userName);
-        emailDto.setSubject(subject);
-        emailDto.setText(userEmail + text);
+    public void send(EmailDto emailDto) {
         rabbitTemplate.convertAndSend("", routingKey, emailDto);
     }
 }
