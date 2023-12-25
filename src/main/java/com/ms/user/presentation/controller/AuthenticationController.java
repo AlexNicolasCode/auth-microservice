@@ -27,22 +27,26 @@ public class AuthenticationController implements Controller<AuthenticationDto, R
     
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<Object> handle(@RequestBody AuthenticationDto authenticationDto) {
-		Map<String, Object> response = new HashMap<String, Object>();
-		String errorMessage = authenticationDto.getError();
-		if (errorMessage != null) {
-			response.put("error", errorMessage);
-			return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
+		try {
+			Map<String, Object> response = new HashMap<String, Object>();
+			String errorMessage = authenticationDto.getError();
+			if (errorMessage != null) {
+				response.put("error", errorMessage);
+				return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
+			}
+			DefaultReturn<Token> result = this.authenticate.auth(
+				authenticationDto.getEmail(),
+				authenticationDto.getPassword()
+			);
+			if (result.getError() != null) {
+				response.put("error", result.getError());
+				return new ResponseEntity<Object>(response, HttpStatus.UNAUTHORIZED);
+			} 
+			Token token = result.getContent();
+			response.put("token", token.getValue());
+			return new ResponseEntity<Object>(response, HttpStatus.CREATED);
+		} catch (Exception error) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		DefaultReturn<Token> result = this.authenticate.auth(
-			authenticationDto.getEmail(),
-			authenticationDto.getPassword()
-		);
-		if (result.getError() != null) {
-			response.put("error", result.getError());
-			return new ResponseEntity<Object>(response, HttpStatus.UNAUTHORIZED);
-		} 
-        Token token = result.getContent();
-		response.put("token", token.getValue());
-		return new ResponseEntity<Object>(response, HttpStatus.CREATED);
 	}
 }
