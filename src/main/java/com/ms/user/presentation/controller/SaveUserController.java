@@ -41,24 +41,28 @@ public class SaveUserController implements Controller<SaveUserDto, ResponseEntit
     
 	@RequestMapping(value = "/sign-up", method = RequestMethod.POST)
 	public ResponseEntity<Object> handle(@RequestBody SaveUserDto userDto) {
-		Map<String, Object> response = new HashMap<String, Object>();
-		String errorMessage = userDto.getError();
-		if (errorMessage != null) {
-			response.put("error", errorMessage);
-			return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
+		try {
+			Map<String, Object> response = new HashMap<String, Object>();
+			String errorMessage = userDto.getError();
+			if (errorMessage != null) {
+				response.put("error", errorMessage);
+				return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
+			}
+			DefaultReturn<Boolean> isAlreadyUsed = this.checkEmailAlreadyUsed.checkEmailAlreadyUsed(userDto.getEmail());
+			if (isAlreadyUsed.getContent()) {
+				return new ResponseEntity<Object>(response, HttpStatus.FORBIDDEN);
+			}
+			this.saveUser.save(
+				userDto.getName(),
+				userDto.getEmail(),
+				userDto.getPassword()
+			);
+			Token token = updateToken.update(userDto.getEmail());
+			response.put("token", token.getValue());
+			sendWelcomeEmail.sendEmail(userDto.getName(), userDto.getEmail());
+			return new ResponseEntity<Object>(response, HttpStatus.CREATED);
+		} catch (Exception error) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		DefaultReturn<Boolean> isAlreadyUsed = this.checkEmailAlreadyUsed.checkEmailAlreadyUsed(userDto.getEmail());
-		if (isAlreadyUsed.getContent()) {
-			return new ResponseEntity<Object>(response, HttpStatus.FORBIDDEN);
-		}
-		this.saveUser.save(
-			userDto.getName(),
-			userDto.getEmail(),
-			userDto.getPassword()
-		);
-		Token token = updateToken.update(userDto.getEmail());
-		response.put("token", token.getValue());
-		sendWelcomeEmail.sendEmail(userDto.getName(), userDto.getEmail());
-		return new ResponseEntity<Object>(response, HttpStatus.CREATED);
 	}
 }
