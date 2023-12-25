@@ -1,7 +1,6 @@
-package com.ms.user.presentation.dto;
+package com.ms.user.domain.dto;
 
 public class EmailDto {
-
     private String emailTo;
     private String subject;
     private String text;
