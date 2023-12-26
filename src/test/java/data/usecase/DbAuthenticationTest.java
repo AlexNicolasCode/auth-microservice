@@ -75,4 +75,22 @@ class DbAuthenticationTest {
 
         assertThat(generateTokenSpy.getCount()).isEqualTo(1);
     }
+
+    @Test
+    void shouldCallGetKeysTwice() {
+        DbAuthentication sut = makeSut();
+
+        sut.auth(email, password);
+
+        assertThat(getKeysSpy.getCount()).isEqualTo(2);
+    }
+
+    @Test
+    void shouldCallUpdateTokenRepositoryOnce() {
+        DbAuthentication sut = makeSut();
+
+        sut.auth(email, password);
+
+        assertThat(updateTokenRepositorySpy.getCount()).isEqualTo(1);
+    }
 }
