@@ -1,5 +1,6 @@
 package data.usecase;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.ms.user.data.usecase.DbAuthentication;
@@ -17,15 +18,27 @@ import domain.mock.PasswordMock;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class DbAuthenticationTest {
-    @Test
-    void shouldCallLoadUserByEmailRepositoryOnce() {
-        Email email = new EmailMock().build();
-        Password password = new PasswordMock().build();
-        LoadUserByEmailRepositorySpy loadUserByEmailRepositorySpy = new LoadUserByEmailRepositorySpy(); 
-        ComparePasswordSpy comparePasswordSpy = new ComparePasswordSpy(); 
-        GenerateTokenSpy generateTokenSpy = new GenerateTokenSpy(); 
-        GetKeysSpy getKeysSpy = new GetKeysSpy();
-        UpdateTokenRepositorySpy updateTokenRepositorySpy = new UpdateTokenRepositorySpy();
+    private Email email;
+    private Password password;
+
+    private LoadUserByEmailRepositorySpy loadUserByEmailRepositorySpy;
+    private ComparePasswordSpy comparePasswordSpy;
+    private GenerateTokenSpy generateTokenSpy;
+    private GetKeysSpy getKeysSpy; 
+    private UpdateTokenRepositorySpy updateTokenRepositorySpy;
+
+    @BeforeEach
+    void init() {
+        this.email = new EmailMock().build();
+        this.password = new PasswordMock().build();
+        this.loadUserByEmailRepositorySpy = new LoadUserByEmailRepositorySpy();
+        this.comparePasswordSpy = new ComparePasswordSpy(); 
+        this.generateTokenSpy = new GenerateTokenSpy(); 
+        this.getKeysSpy = new GetKeysSpy();
+        this.updateTokenRepositorySpy = new UpdateTokenRepositorySpy();
+    }
+
+    DbAuthentication makeSut() {
         DbAuthentication sut = new DbAuthentication(
             loadUserByEmailRepositorySpy,
             comparePasswordSpy,
@@ -33,6 +46,12 @@ class DbAuthenticationTest {
             getKeysSpy,
             updateTokenRepositorySpy
         );
+        return sut;
+    }
+
+    @Test
+    void shouldCallLoadUserByEmailRepositoryOnce() {
+        DbAuthentication sut = makeSut();
 
         sut.auth(email, password);
 
@@ -41,20 +60,7 @@ class DbAuthenticationTest {
 
     @Test
     void shouldCallComparePasswordOnce() {
-        Email email = new EmailMock().build();
-        Password password = new PasswordMock().build();
-        LoadUserByEmailRepositorySpy loadUserByEmailRepositorySpy = new LoadUserByEmailRepositorySpy(); 
-        ComparePasswordSpy comparePasswordSpy = new ComparePasswordSpy(); 
-        GenerateTokenSpy generateTokenSpy = new GenerateTokenSpy(); 
-        GetKeysSpy getKeysSpy = new GetKeysSpy();
-        UpdateTokenRepositorySpy updateTokenRepositorySpy = new UpdateTokenRepositorySpy();
-        DbAuthentication sut = new DbAuthentication(
-            loadUserByEmailRepositorySpy,
-            comparePasswordSpy,
-            generateTokenSpy,
-            getKeysSpy,
-            updateTokenRepositorySpy
-        );
+        DbAuthentication sut = makeSut();
 
         sut.auth(email, password);
 
