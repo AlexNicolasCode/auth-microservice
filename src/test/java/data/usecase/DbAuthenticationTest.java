@@ -38,4 +38,26 @@ class DbAuthenticationTest {
 
         assertThat(loadUserByEmailRepositorySpy.getCount()).isEqualTo(1);
     }
+
+    @Test
+    void shouldCallComparePasswordOnce() {
+        Email email = new EmailMock().build();
+        Password password = new PasswordMock().build();
+        LoadUserByEmailRepositorySpy loadUserByEmailRepositorySpy = new LoadUserByEmailRepositorySpy(); 
+        ComparePasswordSpy comparePasswordSpy = new ComparePasswordSpy(); 
+        GenerateTokenSpy generateTokenSpy = new GenerateTokenSpy(); 
+        GetKeysSpy getKeysSpy = new GetKeysSpy();
+        UpdateTokenRepositorySpy updateTokenRepositorySpy = new UpdateTokenRepositorySpy();
+        DbAuthentication sut = new DbAuthentication(
+            loadUserByEmailRepositorySpy,
+            comparePasswordSpy,
+            generateTokenSpy,
+            getKeysSpy,
+            updateTokenRepositorySpy
+        );
+
+        sut.auth(email, password);
+
+        assertThat(comparePasswordSpy.getCount()).isEqualTo(1);
+    }
 }
