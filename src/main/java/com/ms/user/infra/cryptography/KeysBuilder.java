@@ -25,7 +25,7 @@ public class KeysBuilder implements GetKeys {
     private PublicKey publicKey;
     private PrivateKey privateKey;
 
-    private KeysBuilder () {
+    public KeysBuilder () {
         try {
             boolean hasKeysFiles = this.checkIfKeysFilesExists();
             if (!hasKeysFiles) {
