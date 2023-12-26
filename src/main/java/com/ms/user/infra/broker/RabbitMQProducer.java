@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import com.ms.user.data.protocol.SendEmail;
 import com.ms.user.domain.dto.EmailDto;
-import com.ms.user.domain.model.Email;
 
 @Component
 public class RabbitMQProducer implements SendEmail {
