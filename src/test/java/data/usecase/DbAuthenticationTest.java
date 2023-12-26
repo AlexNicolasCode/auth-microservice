@@ -66,4 +66,13 @@ class DbAuthenticationTest {
 
         assertThat(comparePasswordSpy.getCount()).isEqualTo(1);
     }
+
+    @Test
+    void shouldCallGenerateTokenOnce() {
+        DbAuthentication sut = makeSut();
+
+        sut.auth(email, password);
+
+        assertThat(generateTokenSpy.getCount()).isEqualTo(1);
+    }
 }
