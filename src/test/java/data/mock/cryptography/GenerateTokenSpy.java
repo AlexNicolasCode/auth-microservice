@@ -36,4 +36,8 @@ public class GenerateTokenSpy implements GenerateToken {
     public PublicKey getPublicKey() {
         return publicKey;
     }
+
+    public Integer getCount() {
+        return count;
+    }
 }
