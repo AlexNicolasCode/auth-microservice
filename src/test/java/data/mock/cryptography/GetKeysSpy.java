@@ -13,22 +13,22 @@ public class GetKeysSpy implements GetKeys {
     private Integer count = 0;
 
     public void setPrivateKey(PrivateKey privateKey) {
-        this.count++;
         this.privateKey = privateKey;
     }
     
     public void setPublicKey(PublicKey publicKey) {
-        this.count++;
         this.publicKey = publicKey;
     }
-
+    
     @Override
     public PrivateKey getPrivateKey() {
+        this.count++;
         return this.privateKey;
     }
 
     @Override
     public PublicKey getPublicKey() {
+        this.count++;
         return this.publicKey;
     }
 
